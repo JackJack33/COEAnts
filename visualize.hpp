@@ -2,7 +2,7 @@
 #include <vector>
 #include <cmath>
 
-#include "obstacle.hpp";
+#include "obstacle.hpp"
 
 using std::vector;
 
@@ -10,7 +10,7 @@ class Window {
 private:
   uint width; uint height;
   vector<Obstacle> obstacles;
-  vector<vector<uint>> pixels;
+  vector<vector<ObstacleType>> obstaclePixels;
 
 public:
 
@@ -18,9 +18,9 @@ public:
   
   Window(uint w_in, uint h_in) : width(w_in), height(h_in) {};
 
-  Window(uint w_in, uint h_i, vector<Obstacle> o_in) : width(w_in), height(h_in), obstacles(o_in) {};
+  Window(uint w_in, uint h_in, vector<Obstacle> o_in) : width(w_in), height(h_in), obstacles(o_in) {};
 
   void initializeObstacles();
   
   void draw();
-}
+};

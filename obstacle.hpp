@@ -3,7 +3,7 @@
 
 using std::function;
 
-enum ObstacleType { WALL, FOOD, NEST };
+enum ObstacleType { AIR, WALL, FOOD, NEST };
 
 class Obstacle {
 private:
@@ -23,7 +23,7 @@ public:
 
   ObstacleType getObstacleType() { return obstacleType; };
 
-  bool is_colliding(float x_in, float y_in);
+  bool isColliding(float x_in, float y_in);
   //bool is_colliding(Ant ant_in);
 };
 
