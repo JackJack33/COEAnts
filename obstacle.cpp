@@ -8,6 +8,6 @@ bool Obstacle::is_colliding(float x_in, float y_in) {
   return collisionFunction(dx, dy);
 };
 
-bool Obstacle::is_colliding(Ant ant_in) {
+//bool Obstacle::is_colliding(Ant ant_in) {
   // needs implementation
-};
+//};

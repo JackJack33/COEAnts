@@ -1,6 +1,8 @@
 #include <functional>
 #include <cmath>
 
+using std::function;
+
 enum ObstacleType { WALL, FOOD, NEST };
 
 class Obstacle {
@@ -12,7 +14,7 @@ private:
 public:
   Obstacle() : x(0.0), y(0.0), obstacleType(WALL) {
     // default is uncollidable object
-    auto cf = [](float dx, float dy) -> bool { return false; }
+    auto cf = [](float dx, float dy) -> bool { return false; };
     collisionFunction = cf;
   };
 
@@ -21,8 +23,8 @@ public:
 
   ObstacleType getObstacleType() { return obstacleType; };
 
-  bool is_colliding(float x_in, float y_in) {};
-  bool is_colliding(Ant ant_in) {};
+  bool is_colliding(float x_in, float y_in);
+  //bool is_colliding(Ant ant_in);
 };
 
 class CircleObstacle : public Obstacle {
