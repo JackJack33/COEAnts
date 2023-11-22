@@ -1,11 +1,12 @@
 #include <functional>
 #include <cmath>
+#include "ant.hpp"
 
 enum ObstacleType { WALL, FOOD, NEST };
 
 class Obstacle {
 private:
-  float x; float y;
+  float x, y;
   ObstacleType obstacleType;
   // this allows us to define any shape if we want to
   function< bool(float, float) > collisionFunction;
@@ -26,16 +27,15 @@ public:
 };
 
 class CircleObstacle : public Obstacle {
+private: 
+  float r;
 public:
   // default is uncollidable object
   CircleObstacle() : Obstacle() {};
  
-  CircleObstacle(float x_in, float y_in, ObstacleType ot_in, float r) :
-    Obstacle(x_in, y_in, ot_in,
-	     [r](float dx, float dy) -> bool {
-	       if (dx*dx + dy*dy <= r*r) { return true; }
-	       return false; }
-	     ) {};
+  CircleObstacle(float x_in, float y_in, ObstacleType ot_in, float r_in) :
+    r(r_in), Obstacle(x_in, y_in, ot_in,
+	     [r](float dx, float dy) -> bool { return (dx*dx + dy*dy <= r*r) }) {};
 };
   
 class RectObstacle : public Obstacle {
@@ -45,8 +45,5 @@ public:
  
   RectObstacle(float x_in, float y_in, ObstacleType ot_in, float height, float width) :
     Obstacle(x_in, y_in, ot_in,
-	     [height,width](float dx, float dy) -> bool {
-	       if (std::abs(dx)-width <= 0 && std::abs(dy)-height <= 0) { return true; }
-	       return false; }
-	     ) {};
+	     [height,width](float dx, float dy) -> bool { return (std::abs(dx)-width <= 0 && std::abs(dy)-height <= 0) }) {};
 };
