@@ -5,6 +5,7 @@
 #include "visualize.hpp"
 
 using std::cout;
+using namespace Color;
 
 void Window::initializeObstacles() {
 
@@ -26,11 +27,12 @@ void Window::draw() {
     for (ObstacleType y : x) {
       switch (y) {
       case WALL:
-	cout << "# ";
+	cout << Paint(BG_RED) << Paint(FG_BLUE) << "#";
 	break;
       default:
-	cout << "  ";
+	cout << " ";
       }
+      cout << Paint(FG_DEFAULT) << Paint(BG_DEFAULT) << " ";
     }
     cout << "\n";
   }
