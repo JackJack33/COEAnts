@@ -27,10 +27,19 @@ int main() {
 
     vector<std::shared_ptr<Marker>> markers;
 
+    int frames_elapsed = 0;
     while (nfood > 0) {
+        frames_elapsed++;
         for (auto ant: ants) {
-            ant->move(food, nest, walls, markers, 3);
+            if (frames_elapsed % 3 == 0) {
+                ant->place_marker(markers);
+            }
+            ant->move(food, nest, walls, markers, 3, nfood);
         }
+        for (auto marker: markers) {
+            marker->decrement_span();
+        }
+
     }
 
 //    Obstacle test = Obstacle(10.0, 10.0, WALL,
@@ -56,7 +65,7 @@ int main() {
 //    obs.at(1) = test2;
 //    obs.at(2) = test3;
 
-    Window window = Window(25, 25, obs);
-    window.initializeObstacles();
-    window.draw();
+//    Window window = Window(25, 25, obs);
+//    window.initializeObstacles();
+//    window.draw();
 }
