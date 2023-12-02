@@ -1,8 +1,8 @@
 #include <random>
-#include <numbers>
 #include <cmath>
 #include <vector>
 #include <memory>
+
 #include "obstacle.hpp"
 #include "marker.hpp"
 
@@ -20,7 +20,7 @@ class Ant {
         }
 
         void move(CircleObstacle food, CircleObstacle nest, std::vector<std::shared_ptr<Obstacle>> walls, std::vector<std::shared_ptr<Marker>> markers, float speed) {
-            ang += std::uniform_real_distribution(-PI/12, PI/12)(*engine);
+	  ang += std::uniform_real_distribution<float>(-PI/12, PI/12)(*engine);
 
 
             if (food.isColliding(x, y)) {
