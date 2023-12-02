@@ -33,34 +33,22 @@ int main() {
 			      Marker(1, 3, true),
 			      Marker(2, 4)};
 
-    //while (nfood > 0) {
-    //    for (auto ant: ants) {
-    //        ant->move(food, nest, walls, markers, 3);
-    //    }
-    //}
 
-//    Obstacle test = Obstacle(10.0, 10.0, WALL,
-//                             [](float dx, float dy) -> bool {
-//                                 if (dx * dx + dy * dy <= 20) { return true; }
-//                                 return false;
-//                             });
-//
-//    Obstacle test2 = Obstacle(5.0, 5.0, FOOD,
-//                              [](float dx, float dy) -> bool {
-//                                  if (std::abs(dx) <= 2.5 && std::abs(dy) <= 1) { return true; }
-//                                  return false;
-//                              });
-//
-//    Obstacle test3 = Obstacle(20.0, 20.0, NEST,
-//                              [](float dx, float dy) -> bool {
-//                                  if (dx * dx + dy * dy <= 4) { return true; }
-//                                  return false;
-//                              });
-//
-//    vector<Obstacle> obs(3);
-//    obs.at(0) = test;
-//    obs.at(1) = test2;
-//    obs.at(2) = test3;
+    int frames_elapsed = 0;
+    while (nfood > 0) {
+        frames_elapsed++;
+        for (auto ant: ants) {
+            if (frames_elapsed % 3 == 0) {
+                ant->place_marker(markers);
+            }
+            ant->move(food, nest, walls, markers, 3, nfood);
+        }
+        for (auto marker: markers) {
+            marker->decrement_span();
+        }
+
+    }
+
 
     Window window = Window(25, 25, walls2, &markers);
     window.initializeObstacles();

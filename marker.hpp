@@ -1,17 +1,18 @@
 class Marker {
     private:
-        bool is_food=false;
+        bool food=false;
         float x, y, span=10;
     public:
         Marker() : x(0), y(0) {}
-  Marker(float x_in, float y_in) : x(x_in), y(y_in) {}
-  Marker(float x_in, float y_in, bool f_in) : x(x_in), y(y_in), is_food(f_in) {}
+        Marker(float x_in, float y_in, bool from_food) : x(x_in), y(y_in), food(from_food) {}
 
-  float getX() { return x; }
-  float getY() { return y; }
-  float getSpan() { return span; }
-  bool isFood() { return is_food; }
-        void found_food() { is_food = true; }
+  
+        float getX() { return x; }
+        float getY() { return y; }
+        void found_food() { food = true; }
+        bool is_food() { return food; }
+        int get_span() { return span; }
         void decrement_span() { span--; }
-        explicit operator bool() { return is_food; }
+        bool in_fov(function<bool(float, float)> const &fov_func) { return fov_func(x, y); }
+        float distance(float x_in, float y_in) { return std::sqrt((x - x_in) * (x - x_in) + (y - y_in) * (y - y_in)); }
 };
