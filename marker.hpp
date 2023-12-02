@@ -1,5 +1,3 @@
-
-
 class Marker {
     private:
         bool food=false;
@@ -8,6 +6,9 @@ class Marker {
         Marker() : x(0), y(0) {}
         Marker(float x_in, float y_in, bool from_food) : x(x_in), y(y_in), food(from_food) {}
 
+  
+        float getX() { return x; }
+        float getY() { return y; }
         void found_food() { food = true; }
         bool is_food() { return food; }
         int get_span() { return span; }

@@ -1,9 +1,9 @@
 #include <random>
-#include <numbers>
 #include <cmath>
 #include <vector>
 #include <memory>
 #include <algorithm>
+
 #include "obstacle.hpp"
 #include "marker.hpp"
 
@@ -19,7 +19,7 @@ class Ant {
             x = nest.get_x() + std::cos(rad) * nest.get_r();
             y = nest.get_y() + std::sin(rad) * nest.get_r();
         }
-
+  
         std::vector<std::shared_ptr<Marker>> get_markers_fov(std::vector<std::shared_ptr<Marker>> markers, float speed, int antenna_depth, float fov) {
             auto marker_fov = [this, fov](float x_in, float y_in) -> bool {
                 float ang = std::atan((x - x_in) / (y - y_in));

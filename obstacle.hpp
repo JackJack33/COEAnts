@@ -3,7 +3,7 @@
 
 using std::function;
 
-enum ObstacleType { AIR, WALL, FOOD, NEST };
+enum class ObstacleType { AIR, WALL, FOOD, NEST };
 
 class Obstacle {
     private:

@@ -3,15 +3,19 @@
 #include <cmath>
 #include <iostream>
 
-#include "obstacle.hpp"
+#include "ant.hpp"
 
 using std::vector;
+
+// no extended enums in c++ :( implementation sucks but works
+enum class PixelType {AIR, WALL, FOOD, NEST, MARKER_FOOD, MARKER_NEST, ANT_FOOD, ANT_NEST};
 
 class Window {
 private:
   uint width; uint height;
   vector<Obstacle> obstacles;
-  vector<vector<ObstacleType>> obstaclePixels;
+  vector<vector<PixelType>> obstaclePixels;
+  vector<Marker>* markers;
 
 public:
 
@@ -21,7 +25,11 @@ public:
 
   Window(uint w_in, uint h_in, vector<Obstacle> o_in) : width(w_in), height(h_in), obstacles(o_in) {};
 
+  Window(uint w_in, uint h_in, vector<Obstacle> o_in, vector<Marker>* m_in) : width(w_in), height(h_in), obstacles(o_in), markers(m_in) {};
+
   void initializeObstacles();
+
+  void updateObstaclePixels();
   
   void draw();
 };
