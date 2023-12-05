@@ -32,8 +32,13 @@ void Window::updateObstaclePixels() {
   for (Marker& m : *markers) {
     // floats x, y, span
     int vx = std::lround(m.getX()); int vy = std::lround(m.getY());
-    if (m.isFood()) { obstaclePixels.at(vx).at(vy) = PixelType::MARKER_NEST; }
+    if (m.is_food()) { obstaclePixels.at(vx).at(vy) = PixelType::MARKER_NEST; }
     else { obstaclePixels.at(vx).at(vy) = PixelType::MARKER_FOOD; }
+  }
+  for (Ant& a : *ants) {
+    int vx = std::lround(a.getX()); int vy = std::lround(a.getY());
+    if (a.carrying_food()) { obstaclePixels.at(vx).at(vy) = PixelType::ANT_FOOD; }
+    else { obstaclePixels.at(vx).at(vy) = PixelType::ANT_NEST; }
   }
 }
 

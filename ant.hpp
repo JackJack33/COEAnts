@@ -19,6 +19,10 @@ class Ant {
             x = nest.get_x() + std::cos(rad) * nest.get_r();
             y = nest.get_y() + std::sin(rad) * nest.get_r();
         }
+
+  bool carrying_food() { return has_food; }
+  float getX() { return x; }
+  float getY() { return y; }
   
         std::vector<std::shared_ptr<Marker>> get_markers_fov(std::vector<std::shared_ptr<Marker>> markers, float speed, int antenna_depth, float fov) {
             auto marker_fov = [this, fov](float x_in, float y_in) -> bool {

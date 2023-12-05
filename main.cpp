@@ -23,9 +23,14 @@ int main() {
     
 
     std::shared_ptr<std::default_random_engine> engine = std::make_shared<std::default_random_engine>();
-    vector<std::shared_ptr<Ant>> ants;
+    //vector<std::shared_ptr<Ant>> ants;
+    //for (int i = 0; i < nants; i++) {
+    //    ants.push_back(std::make_shared<Ant>(engine, nest));
+    //}
+
+    vector<Ant> ants;
     for (int i = 0; i < nants; i++) {
-        ants.push_back(std::make_shared<Ant>(engine, nest));
+      ants.push_back(Ant(engine, nest));
     }
 
     vector<Marker> markers = {Marker(10, 10, true),
