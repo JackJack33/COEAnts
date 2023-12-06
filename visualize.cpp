@@ -10,15 +10,9 @@ using namespace Color;
 void Window::initializeObstacles() {
 
         obstaclePixels.resize(width, vector<PixelType>(height));
-
+        pixels.resize(width, vector<PixelType>(height));
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-
-                if (x == width-1 || x == 0 || y == height-1 || y == 0) {
-                    obstaclePixels.at(x).at(y) = PixelType::WALL;
-                    continue;
-                }
-
                 for (auto& obstacle : obstacles) {
                     if (obstacle->isColliding(x, y)) {
                         obstaclePixels.at(x).at(y) = (PixelType)obstacle->getObstacleType();
@@ -26,27 +20,33 @@ void Window::initializeObstacles() {
                 }
             }
         }
+        cout << "Past this\n";
     };
 
-void Window::updateObstaclePixels() {
+void Window::updateObstaclePixels(vector<std::shared_ptr<Marker>>& markers) {
+    pixels = obstaclePixels;
     for (auto& m : markers) {
         // floats x, y, span
-        int vx = std::lround(m->getX()); int vy = std::lround(m->getY());
-        if (m->is_food()) { obstaclePixels.at(vx).at(vy) = PixelType::MARKER_NEST; }
-        else { obstaclePixels.at(vx).at(vy) = PixelType::MARKER_FOOD; }
+        int vx = m->getX(); int vy = m->getY();
+        if (m->is_food()) { pixels.at(vx).at(vy) = PixelType::MARKER_FOOD; }
+        else { pixels.at(vx).at(vy) = PixelType::MARKER_NEST; }
     }
+
     for (auto& a : ants) {
+
         int vx = std::lround(a->getX()); int vy = std::lround(a->getY());
-        if (a->carrying_food()) { obstaclePixels.at(vx).at(vy) = PixelType::ANT_FOOD; }
-        else { obstaclePixels.at(vx).at(vy) = PixelType::ANT_NEST; }
+        cout << vx << ", " << vy << "\n";
+        if (a->carrying_food()) { pixels.at(vx).at(vy) = PixelType::ANT_FOOD; }
+        else { pixels.at(vx).at(vy) = PixelType::ANT_NEST; }
     }
+    cout << "Passed this\n";
 }
 
-void Window::draw() {
+void Window::draw(vector<std::shared_ptr<Marker>>& markers) {
 
-    updateObstaclePixels();
+    updateObstaclePixels(markers);
 
-    for (vector<PixelType> x : obstaclePixels) {
+    for (vector<PixelType> x : pixels) {
         for (PixelType y : x) {
             switch (y) {
                 case PixelType::WALL:
@@ -63,6 +63,12 @@ void Window::draw() {
                     break;
                 case PixelType::MARKER_NEST:
                     cout << Paint(BG_BLACK) << Paint(FG_GREEN) << "N";
+                    break;
+                case PixelType::ANT_NEST:
+                    cout << Paint(BG_BLACK) << Paint(FG_GREEN) << "A";
+                    break;
+                case PixelType::ANT_FOOD:
+                    cout << Paint(BG_BLACK) << Paint(FG_BLUE) << "Z";
                     break;
                 default:
                     cout << " ";

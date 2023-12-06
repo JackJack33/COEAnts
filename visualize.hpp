@@ -18,8 +18,8 @@ private:
   CircleObstacle food;
   vector<std::shared_ptr<Obstacle>> obstacles;
   vector<std::shared_ptr<Ant>> ants;
-  vector<std::shared_ptr<Marker>> markers;
   vector<vector<PixelType>> obstaclePixels;
+  vector<vector<PixelType>> pixels;
 
 public:
 
@@ -27,14 +27,14 @@ public:
   
   Window(uint w_in, uint h_in) : width(w_in), height(h_in), nest(CircleObstacle(0,0,ObstacleType(NEST),1)), food(CircleObstacle(5,5,ObstacleType(FOOD),1)) {};
 
-  Window(uint w_in, uint h_in, CircleObstacle nest_in, CircleObstacle food_in, vector<std::shared_ptr<Obstacle>> o_in, vector<std::shared_ptr<Ant>> ants_in, vector<std::shared_ptr<Marker>> markers_in)
-        : width(w_in), height(h_in), food(food_in), nest(nest_in), obstacles(o_in), ants(ants_in), markers(markers_in) {};
+  Window(uint w_in, uint h_in, CircleObstacle nest_in, CircleObstacle food_in, vector<std::shared_ptr<Obstacle>> o_in, vector<std::shared_ptr<Ant>> ants_in)
+        : width(w_in), height(h_in), food(food_in), nest(nest_in), obstacles(o_in), ants(ants_in) {};
 
   void initializeObstacles();
 
-    void updateObstaclePixels();
+    void updateObstaclePixels(vector<std::shared_ptr<Marker>>& markers);
 
-    void draw();
+    void draw(vector<std::shared_ptr<Marker>>& markers);
 };
 
 namespace Color {

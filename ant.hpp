@@ -85,6 +85,7 @@ class Ant {
             float next_x = x + std::cos(rad) * speed, next_y = y + std::sin(rad) * speed;
             if (!has_food && food.isColliding(next_x, next_y)) {
                 nfood--;
+                std::cout << "An ant has taken food! There are " << nfood << " left!\n";
                 x = next_x;
                 y = next_y;
                 rad += PI;
@@ -119,7 +120,7 @@ class Ant {
 
                 if (norm_sum < .01) {
                     for (int i = 1; i <= offsets.size(); i++) {
-                        norm_biases.at(i - 1) = i / offsets.size();
+                        norm_biases.at(i - 1) = float(i) / offsets.size();
                     }
                 } else {
                     norm_biases.at(0) /= norm_sum;
