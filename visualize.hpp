@@ -2,28 +2,39 @@
 #include <vector>
 #include <cmath>
 #include <iostream>
+#include <memory>
 
-#include "obstacle.hpp"
+#include "ant.hpp"
 
 using std::vector;
+
+// no extended enums in c++ :( implementation sucks but works
+enum class PixelType {AIR, WALL, FOOD, NEST, MARKER_FOOD, MARKER_NEST, ANT_FOOD, ANT_NEST};
 
 class Window {
 private:
   uint width; uint height;
-  vector<Obstacle> obstacles;
-  vector<vector<ObstacleType>> obstaclePixels;
+  CircleObstacle nest;
+  CircleObstacle food;
+  vector<std::shared_ptr<Obstacle>> obstacles;
+  vector<std::shared_ptr<Ant>> ants;
+  vector<std::shared_ptr<Marker>> markers;
+  vector<vector<PixelType>> obstaclePixels;
 
 public:
 
-  Window() : width(10), height(10) {};
+  Window() : width(10), height(10), nest(CircleObstacle(0,0,ObstacleType(NEST),1)), food(CircleObstacle(5,5,ObstacleType(FOOD),1))  {};
   
-  Window(uint w_in, uint h_in) : width(w_in), height(h_in) {};
+  Window(uint w_in, uint h_in) : width(w_in), height(h_in), nest(CircleObstacle(0,0,ObstacleType(NEST),1)), food(CircleObstacle(5,5,ObstacleType(FOOD),1)) {};
 
-  Window(uint w_in, uint h_in, vector<Obstacle> o_in) : width(w_in), height(h_in), obstacles(o_in) {};
+  Window(uint w_in, uint h_in, CircleObstacle nest_in, CircleObstacle food_in, vector<std::shared_ptr<Obstacle>> o_in, vector<std::shared_ptr<Ant>> ants_in, vector<std::shared_ptr<Marker>> markers_in)
+        : width(w_in), height(h_in), food(food_in), nest(nest_in), obstacles(o_in), ants(ants_in), markers(markers_in) {};
 
   void initializeObstacles();
-  
-  void draw();
+
+    void updateObstaclePixels();
+
+    void draw();
 };
 
 namespace Color {
