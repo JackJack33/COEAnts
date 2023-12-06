@@ -18,6 +18,8 @@ void Window::initializeObstacles() {
                         obstaclePixels.at(x).at(y) = (PixelType)obstacle->getObstacleType();
                     }
                 }
+		if (nest.isColliding(x,y)) { obstaclePixels.at(x).at(y) = (PixelType)nest.getObstacleType(); }
+		if (food.isColliding(x,y)) { obstaclePixels.at(x).at(y) = (PixelType)food.getObstacleType(); }
             }
         }
         cout << "Past this\n";
@@ -65,10 +67,10 @@ void Window::draw(vector<std::shared_ptr<Marker>>& markers) {
                     cout << Paint(BG_BLACK) << Paint(FG_GREEN) << "N";
                     break;
                 case PixelType::ANT_NEST:
-                    cout << Paint(BG_BLACK) << Paint(FG_GREEN) << "A";
+                    cout << Paint(BG_YELLOW) << Paint(FG_GREEN) << "A";
                     break;
                 case PixelType::ANT_FOOD:
-                    cout << Paint(BG_BLACK) << Paint(FG_BLUE) << "Z";
+		    cout << Paint(BG_YELLOW) << Paint(FG_BLUE) << "Z";
                     break;
                 default:
                     cout << " ";
