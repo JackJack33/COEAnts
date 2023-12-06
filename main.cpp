@@ -15,10 +15,10 @@ int main() {
     int nants = 10;
     int nantennas = 3;
     int antenna_depth = 4;
-    float speed = 1;
-    float fov = 3.1415 / 6;
+    float speed = 2;
+    float fov = 3.1415;
     std::pair<float, float> bias_ratio = {.34, .66};
-    vector<std::shared_ptr<Obstacle>> walls = {std::make_shared<Obstacle>(8, 4, ObstacleType(WALL), 2, 5),
+    vector<std::shared_ptr<Obstacle>> walls = {std::make_shared<Obstacle>(10, 6, ObstacleType(WALL), 2, 7),
                                                std::make_shared<Obstacle>(-5, -5, ObstacleType(WALL), 6, 35),
                                                std::make_shared<Obstacle>(0, 25, ObstacleType(WALL), 30, 5),
                                                std::make_shared<Obstacle>(25, -5, ObstacleType(WALL), 5, 30),
