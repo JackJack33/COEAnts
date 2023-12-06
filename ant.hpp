@@ -52,14 +52,11 @@ class Ant {
 
             std::pair<float, float> bias = {0, 0};
             for (int depth = 0; depth < antenna_depth; depth++) {
-                std::cout << "\nDepth: " << depth << '\n';
                 next_x += std::cos(offset_rad) * speed;
                 next_y += std::sin(offset_rad) * speed;
-                std::cout << '(' << next_x << ", " << next_y << "), rad: " << offset_rad << '\n';
 
                 for (const auto& marker : markers_in_fov) {
                     if (has_food != marker->is_food()) {
-                        std::cout << "Relevant marker found\n";
                         // Marker bias = depth * (timespan/10) / distance^2
                         bias.first += (antenna_depth - depth) * marker->get_span() / 10. / std::pow(marker->distance(next_x, next_y), 2);
                     }
@@ -70,13 +67,10 @@ class Ant {
 
                 // Collision bias = Depth
                 if ((!has_food && food.isColliding(next_x, next_y)) || (has_food && nest.isColliding(next_x, next_y))){
-                    std::cout << "Hit food or nest";
                     bias.second += 10. * (antenna_depth - depth) / (speed * speed);
                 } else {
                     for (const auto& wall : walls) {
                         if (wall->isColliding(next_x, next_y)) {
-                            std::cout << "Collision with wall\n";
-//                            bias.second -= (antenna_depth - depth) / (speed * speed);
                             // Short circuit kill branch
                             return bias;
                         }
@@ -90,29 +84,23 @@ class Ant {
         void move(CircleObstacle food, CircleObstacle nest, std::vector<std::shared_ptr<Obstacle>> walls, const std::vector<std::shared_ptr<Marker>>& markers, float speed, int& nfood, int antenna_depth, float fov, int n_antennas, std::pair<float, float> bias_ratio) {
             float next_x = x + std::cos(rad) * speed, next_y = y + std::sin(rad) * speed;
             if (!has_food && food.isColliding(next_x, next_y)) {
-                std::cout << "Food contact\n";
                 nfood--;
                 x = next_x;
                 y = next_y;
                 rad += PI;
             } else if (has_food && nest.isColliding(next_x, next_y)) {
-                std::cout << "Nest contact\n";
                 x = next_x;
                 y = next_y;
                 rad += PI;
             } else {
                 std::vector<std::shared_ptr<Marker>> markers_in_fov = get_markers_fov(markers, speed, antenna_depth, fov);
-                std::cout << "Markers in FOV: " << markers_in_fov.size() << '\n';
                 std::vector<std::pair<float, float>> biases;
                 std::vector<float> offsets(n_antennas);
                 for (int i = 0; i < n_antennas; i++) {
                     offsets.at(i) = i * fov / (n_antennas - 1) - fov / 2;
                 }
                 for (int offset_ind = 0; offset_ind < offsets.size(); offset_ind++) {
-                    std::cout << "\n\nBranch " << offset_ind + 1 << " (offset=" << offsets.at(offset_ind) << "):\n" << '\n';
                     std::pair<float, float> bias = get_antenna_bias(offsets.at(offset_ind), food, nest, walls, markers_in_fov, speed);
-                    std::cout << "Marker Bias: " << bias.first << '\n';
-                    std::cout << "Collision Bias: " << bias.second << '\n';
                     biases.push_back(bias);
                 }
                 auto [min_marker, max_marker] = std::minmax_element(biases.begin(), biases.end(), [] (auto& l, auto& r) { return l.first < r.first; });
@@ -125,7 +113,6 @@ class Ant {
 
                 for (int i = 0; i < offsets.size(); i++) {
                     float branch_bias = bias_ratio.first * (biases.at(i).first - min_marker->first) / marker_range + bias_ratio.second * (biases.at(i).second - min_collision->second) / collision_range;
-                    std::cout << "Bias for branch " << i << ": " << branch_bias << '\n';
                     norm_sum += branch_bias;
                     norm_biases.push_back(branch_bias);
                 }
@@ -174,5 +161,3 @@ class Ant {
         }
 
 };
-//https://www.desmos.com/calculator/xrvjqwuf5m
-//Multiple antennas, weight by distance from antenna, check if each antenna is colliding; for markers determine distance to marker
