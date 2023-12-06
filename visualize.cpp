@@ -22,7 +22,6 @@ void Window::initializeObstacles() {
 		if (food.isColliding(x,y)) { obstaclePixels.at(x).at(y) = (PixelType)food.getObstacleType(); }
             }
         }
-        cout << "Past this\n";
     };
 
 void Window::updateObstaclePixels(vector<std::shared_ptr<Marker>>& markers) {
@@ -37,11 +36,9 @@ void Window::updateObstaclePixels(vector<std::shared_ptr<Marker>>& markers) {
     for (auto& a : ants) {
 
         int vx = std::lround(a->getX()); int vy = std::lround(a->getY());
-        cout << vx << ", " << vy << "\n";
         if (a->carrying_food()) { pixels.at(vx).at(vy) = PixelType::ANT_FOOD; }
         else { pixels.at(vx).at(vy) = PixelType::ANT_NEST; }
     }
-    cout << "Passed this\n";
 }
 
 void Window::draw(vector<std::shared_ptr<Marker>>& markers) {
