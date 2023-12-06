@@ -11,7 +11,7 @@ using std::vector;
 int main() {
     std::shared_ptr<std::default_random_engine> engine = std::make_shared<std::default_random_engine>();
     engine->discard(1);
-    int nfood = 5;
+    int nfood = 100;
     int nants = 10;
     int nantennas = 3;
     int antenna_depth = 4;
@@ -23,7 +23,7 @@ int main() {
                                                std::make_shared<Obstacle>(0, 25, ObstacleType(WALL), 30, 5),
                                                std::make_shared<Obstacle>(25, -5, ObstacleType(WALL), 5, 30),
                                                std::make_shared<Obstacle>(0, -5, ObstacleType(WALL), 26, 5)};
-    CircleObstacle nest = CircleObstacle(5, 5, ObstacleType(NEST), .5);
+    CircleObstacle nest = CircleObstacle(5, 5, ObstacleType(NEST), 2);
     CircleObstacle food = CircleObstacle(15, 15, ObstacleType(FOOD), 3);
     vector<std::shared_ptr<Marker>> markers;
 
@@ -50,6 +50,6 @@ int main() {
         markers.erase(std::remove_if(std::begin(markers), std::end(markers), [](std::shared_ptr<Marker> m) -> bool { return m->get_span() == 0; }), markers.end());
         window.draw(markers);
         std::cout << "Frames Elapsed: " << frames_elapsed << '\n';
-        usleep(1000000);
+        usleep(100000);
     }
 }

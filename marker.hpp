@@ -3,7 +3,7 @@
 class Marker {
     private:
         bool food=false;
-        float x, y, span=10;
+        float x, y, span=30;
     public:
         Marker() : x(0), y(0) {}
         Marker(float x_in, float y_in, bool from_food) : x(x_in), y(y_in), food(from_food) {}

@@ -57,7 +57,7 @@ class Ant {
                 for (const auto& marker : markers_in_fov) {
                     if (has_food != marker->is_food()) {
                         // Marker bias = depth * (timespan/10) / distance^2
-                        bias.first += (antenna_depth - depth) * marker->get_span() / 10. / std::pow(marker->distance(next_x, next_y), 2);
+                        bias.first += (antenna_depth - depth) * marker->get_span() / 20. / std::pow(marker->distance(next_x, next_y), 2);
                     }
                 }
                 if (markers_in_fov.size() != 0) {
@@ -88,10 +88,13 @@ class Ant {
                 x = next_x;
                 y = next_y;
                 rad += PI;
+		has_food = true;
             } else if (has_food && nest.isColliding(next_x, next_y)) {
+	        std::cout << "An ant has returned food to the nest!\n";
                 x = next_x;
                 y = next_y;
                 rad += PI;
+		has_food = false;
             } else {
                 std::vector<std::shared_ptr<Marker>> markers_in_fov = get_markers_fov(markers, speed, antenna_depth, fov);
                 std::vector<std::pair<float, float>> biases;
